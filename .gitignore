@@ -1,3 +1,5 @@
+node_modules/
+
 part0/notes/
 
 part1/1a-Notes/
@@ -5,3 +7,9 @@ part1/1b-Notes/
 part1/1c-Notes/
 part1/1d-Notes/
 part1/ex
+
+part2/Notes-2a
+part2/Notes-2b
+part2/ex-2a
+part2/ex-2b
+
