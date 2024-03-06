@@ -1,88 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import ContactData from './components/ContactData'
+import NumberList from './components/NumberList'
+import axios from 'axios'
 
 const Title = ({text}) => (<h1>{text}</h1>)
 
 const SubTitle = ({text}) => (<h2>{text}</h2>)
 
-const Filter = ({filterValue, handleFilterChange}) => {
-  return (
-    <div>
-      Only show numbers that contain: <input value={filterValue} onChange={handleFilterChange}/>
-    </div>
-  )
-}
-
-const FormInputField = ({label, value, onChange}) => (
-  <div>
-    <label htmlFor={label}>{label}: </label>
-    <input 
-      id={label} 
-      value={value} 
-      onChange={onChange}
-      autoComplete="off"/>
-  </div>
-)
-
-const Button = ({label}) => (
-  <div>
-    <button name={label + "Button"} type="submit">
-      {label}
-    </button>
-  </div>
-)
-
-const ContactData = ({addPerson, newName, newNumber, handleNewName, handleNewNumber}) => (
-    <form id="contactForm" onSubmit={addPerson}>
-      <FormInputField 
-        label="name" 
-        value={newName} 
-        onChange={handleNewName}/>
-
-      <FormInputField 
-        label="number" 
-        value={newNumber} 
-        onChange={handleNewNumber}/>
-
-      <Button
-        label="add"/>
-    </form>
-)
-
-const Person = ({name, number}) => (
-  <li>
-    {name} {number}
-  </li>
-)
-
-const NumberList = ({persons, filter}) => {
-  const personsFiltered = persons
-    .filter(person => 
-      person.name
-        .toLowerCase()
-        .includes(filter.toLowerCase())
-    )
-
-  return (
-    <ul style={{listStyleType: "none", padding: "0"}}>
-      {personsFiltered
-        .map(person => 
-          <Person 
-            key={person.name}
-            name={person.name} 
-            number={person.number}
-          />
-      )}      
-    </ul>
-  )
-}
-
 const App = () => {
-  const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', number: "15-2859-2331"}
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('Martin Fowler')
   const [newNumber, setNewNumber] = useState('15-4112-3807')
   const [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('RESPUESTA', response.data)
+        setPersons(response.data)
+      })
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
