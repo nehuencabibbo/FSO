@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import ContactData from './components/ContactData'
 import NumberList from './components/NumberList'
-import axios from 'axios'
+import personService from './services/person'
 
 const Title = ({text}) => (<h1>{text}</h1>)
 
@@ -15,11 +15,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('RESPUESTA', response.data)
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(returnedPersons => {
+        setPersons(returnedPersons)
       })
   }, [])
 
@@ -29,17 +28,37 @@ const App = () => {
     const newPerson = {name: newName, number: newNumber}
 
     const isPersonInPhonebook = (persons, newPerson) => {
-      for (let i = 0; i < persons.length; i++) {
-        if (persons[i].name == newPerson.name) return true
-      }
-
-      return false
+      return persons.some(
+        (person) => 
+          person.name == newPerson.name)
     }
 
     if (!isPersonInPhonebook(persons, newPerson)) {
-       setPersons(persons.concat(newPerson))
+      personService
+        .add(newPerson)
+        .then(returnedPerson => { 
+          setPersons(persons.concat(returnedPerson))
+        })
     } else {
-      window.alert(`${newPerson.name} is already in the phonebook`)
+      const confirmationText = `${newPerson.name} is already added to phonebook, replace the old number with a new one?`
+      if (confirm(confirmationText)){
+        const newPersonId = persons
+          .find(person => 
+            person.name == newPerson.name)
+          .id
+        
+        personService
+          .change(newPersonId, newPerson)
+          .then(personWithNewNumber => 
+            setPersons(persons.map(
+              person =>
+                (person.id == personWithNewNumber.id) 
+                ? personWithNewNumber
+                : person
+              )
+            )
+          )
+      }
     }
   }
 
@@ -52,7 +71,7 @@ const App = () => {
         filterValue={filter} 
         handleFilterChange={
           (event) => setFilter(event.target.value)}
-        />
+      />
       
       <SubTitle text={"Contact data"}/>
       <ContactData 
@@ -70,7 +89,10 @@ const App = () => {
         }/>
 
       <SubTitle text={"Numbers"}/>
-      <NumberList persons={persons} filter={filter}/>
+      <NumberList 
+        persons={persons} 
+        filter={filter}
+        setPersons={setPersons}/>
     </div>
   )
 }
