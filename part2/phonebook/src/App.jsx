@@ -3,6 +3,8 @@ import Filter from './components/Filter'
 import ContactData from './components/ContactData'
 import NumberList from './components/NumberList'
 import personService from './services/person'
+import Notification from './components/Notification'
+import './index.css'
 
 const Title = ({text}) => (<h1>{text}</h1>)
 
@@ -13,6 +15,7 @@ const App = () => {
   const [newName, setNewName] = useState('Martin Fowler')
   const [newNumber, setNewNumber] = useState('15-4112-3807')
   const [filter, setFilter] = useState('')
+  const [operationCompletedMessage, setOperationCompletedMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -38,6 +41,16 @@ const App = () => {
         .add(newPerson)
         .then(returnedPerson => { 
           setPersons(persons.concat(returnedPerson))
+
+          setOperationCompletedMessage(
+            {
+              message: `Added ${returnedPerson.name}`,
+              type: 'success',
+            }
+          )
+          setTimeout(() => {
+            setOperationCompletedMessage(null)
+          }, 5000)
         })
     } else {
       const confirmationText = `${newPerson.name} is already added to phonebook, replace the old number with a new one?`
@@ -49,7 +62,7 @@ const App = () => {
         
         personService
           .change(newPersonId, newPerson)
-          .then(personWithNewNumber => 
+          .then(personWithNewNumber => {
             setPersons(persons.map(
               person =>
                 (person.id == personWithNewNumber.id) 
@@ -57,21 +70,55 @@ const App = () => {
                 : person
               )
             )
+            setOperationCompletedMessage(
+              {
+                message: `${newPerson.name}'s number was changed to ${newPerson.number}`, 
+                type: 'success',
+              })
+            setTimeout(() => {
+              setOperationCompletedMessage(null)
+              }, 20000)
+            }
           )
+          .catch(error => {
+            //TODO: Fetchear todo denuevo
+            setOperationCompletedMessage(
+              {
+              message: `Couldn't change ${newPerson.name}'s phone number, person was previously deleted from the server`,
+              type: 'error'
+              }
+            )
+            setTimeout(() => {
+              setOperationCompletedMessage(null)
+            }, 5000)
+          })
+
+          setPersons(
+              persons
+                  .filter(person => 
+                      newPersonId != person.id))  
+                  
+      }
       }
     }
-  }
 
   return (
     <div>
       <Title text={"Phonebook"}/>
+      <Notification 
+        message={
+          operationCompletedMessage != null ? operationCompletedMessage.message : null
+        } 
+        type={
+          operationCompletedMessage != null ? operationCompletedMessage.type : null
+        }
+      />
 
       <SubTitle text={"Filter"}/>
       <Filter 
         filterValue={filter} 
         handleFilterChange={
-          (event) => setFilter(event.target.value)}
-      />
+          (event) => setFilter(event.target.value)}/>
       
       <SubTitle text={"Contact data"}/>
       <ContactData 

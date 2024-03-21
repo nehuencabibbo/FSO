@@ -10,7 +10,7 @@ const Person = ({id, name, number, onDelete}) => (
     </li>
 )
   
-const NumberList = ({persons, filter, setPersons}) => {
+const NumberList = ({persons, filter, setPersons, setOperationCompletedMessage}) => {
     const personsFiltered = persons
         .filter(person => 
             person.name

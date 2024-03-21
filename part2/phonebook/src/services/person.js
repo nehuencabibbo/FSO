@@ -22,8 +22,8 @@ const remove = (id) => {
 
 const change = (id, person) => {
     return axios
-            .put(`${baseUrl}/${id}`, person)
-            .then(response => response.data)
+        .put(`${baseUrl}/${id}`, person)
+        .then(response => response.data)
 }
 
 export default {
