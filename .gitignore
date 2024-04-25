@@ -1,14 +1,7 @@
 node_modules/
 
-part0/notes/
-
-part1/1*
-part1/ex
-
-part2/Notes-2*
-part2/ex*
-
-part3/ex*
-part3/notes
+*ex*
+*Notes*
+*notes*
 
 Phonebook-backend
