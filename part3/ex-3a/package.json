@@ -6,7 +6,9 @@
   "scripts": {
     "test": "\"echo \"Error: no test specified\" && exit 1\"",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf dist && cd ../ex-part2-front && npm run build && cp -r dist ../ex-3a",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "author": "Nehuén Cabibbo",
   "license": "MIT",
