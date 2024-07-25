@@ -9,6 +9,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(express.static('dist'))
 app.use(express.json())
 
 let notes = [
