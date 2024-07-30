@@ -3,9 +3,10 @@ node_modules/
 *ex*
 *Notes*
 *notes*
+.env
 
-Phonebook-backend
+FS-Phonebook
 
-!ex-3a
+!ex-3a*
 !ex-part2-front
 !*index*
