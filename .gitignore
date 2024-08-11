@@ -1,12 +1,24 @@
 node_modules/
 
+# Code copied from following along
 *ex*
+
+# If not *ex* excludes index.js files
+!*index*
+
+# Notes
 *Notes*
 *notes*
+
+#Enviroment variables for DB keys
 .env
 
 FS-Phonebook
 
+# equivalent of ex but for part4
+part3-backend
+
+# Need to be commited for deploy
 !ex-3a*
 !ex-part2-front
-!*index*
+
