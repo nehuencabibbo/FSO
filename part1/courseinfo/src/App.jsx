@@ -1,91 +1,28 @@
-const Header = (props) => {
-  return (
-    <>
-      <h1>{props.course}</h1>
-    </>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <>
-      <p>
-        {props.part} {props.exercises}
-      </p>
-    </>
-  )
-}
-
-const Content = (props) => {
-  let renderedParts = [];
-  for (let i = 0; i < props.parts.length; i++) {
-    
-    const part = props.parts[i].part;
-    const exercices = props.parts[i].exercices;
-
-    //When dynamically creating components, a key
-    //attribute should be added so that react can
-    //efficiently update the DOM when the components
-    //change, without losing track of which component
-    //corresponds to which element in the list
-
-    //Basically, when dynamically creating elements
-    //react needs a way to distinguish between them
-    renderedParts.push(<Part key={i} part={part} exercises={exercices}/>);
-  }
-  return (
-    //If an array of elements is returned, react
-    //will render each of it's elements 
-
-    //Doing:
-
-    //{[part: part1, exercices: 10, ...]}
-
-    //Is equivalent to:
-
-    //<Part part=... />
-    //<Part part=... />
-    //etc
-    <>
-      {renderedParts}
-    </>
-  )
-}
-
-const Total = (props) => {
-  let numberOfExercices = props.parts.reduce((total, part) => total + part.exercices, 0); 
-  return (
-    <>
-      <p>Number of exercises: {numberOfExercices}</p>
-    </>
-  )
-}
+import Content from "./Content"
+import Header from "./Header"
+import Total from "./Total"
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        part: 'Fundamentals of React',
-        exercices: 10
-      },
-      {
-        part: 'Using props to pass data',
-        exercices: 7
-      },
-      {
-        part: 'State of a component',
-        exercices: 14
-      }
-    ]
-  }
+  const course = 'Half Stack application development'
+  const part1 = 'Fundamentals of React'
+  const exercises1 = 10
+  const part2 = 'Using props to pass data'
+  const exercises2 = 7
+  const part3 = 'State of a component'
+  const exercises3 = 14
+
+  const parts = [
+    {part: part1, exercices: exercises1}, 
+    {part: part2, exercices: exercises2},
+    {part: part3, exercices: exercises3},
+  ]
 
   return (
-    <>
-      <Header course={course.name}/>
-      <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
-    </>
+    <div>
+      <Header course={course}></Header>
+      <Content parts={parts}></Content>
+      <Total exercices={parts.map((partObject, _) => partObject.exercices)}></Total>
+    </div>
   )
 }
 

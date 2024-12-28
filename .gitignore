@@ -1,5 +1,10 @@
 node_modules/
 
+
+# Deprecated code (mostly notes and old version of exercices) 
+deprecated
+
+
 # Code copied from following along
 *ex*
 
