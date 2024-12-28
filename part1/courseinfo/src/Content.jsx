@@ -1,16 +1,14 @@
 /* eslint-disable react/jsx-key */
-const Content = (props) => {
-    return (
-        <>
-            {
-                props.parts.map((partObject) => (
-                    <p>
-                        {partObject.part} {partObject.exercices}
-                    </p>
-                ))
-            }
-        </>
-    )
-}
+import Part from "./Part";
 
-export default Content
+const Content = (props) => {
+  return (
+    <>
+      {props.parts.map((partObject) => (
+        <Part partName={partObject.part} exercices={partObject.exercices} />
+      ))}
+    </>
+  );
+};
+
+export default Content;
