@@ -2,11 +2,12 @@
 import Part from "./Part";
 
 const Content = (props) => {
+  console.log(props);
   return (
     <>
-      {props.parts.map((partObject) => (
-        <Part partName={partObject.part} exercices={partObject.exercices} />
-      ))}
+      {props.parts.map((partObject) => {
+        return <Part partName={partObject.name} exercises={partObject.exercises} />;
+      })}
     </>
   );
 };
