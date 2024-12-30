@@ -1,6 +1,15 @@
 /* eslint-disable react/prop-types */
 const Statistics = ({ reviews }) => {
   const total = reviews.good + reviews.neutral + reviews.bad;
+  if (total === 0) {
+    return (
+        <>
+            <h2>Statistics</h2>
+            <p>No feedback given</p>
+        </>
+    )
+  }
+  
   return (
     <>
       <h2>Statistics</h2>
