@@ -1,3 +1,5 @@
+const Button = ({text, onClick}) => <button onClick={onClick}>{text}</button>
+
 const Feedback = ({
   handleGoodReview,
   handleNeutralReview,
@@ -6,9 +8,9 @@ const Feedback = ({
     return (
         <>
             <h2>give feedback</h2>
-            <button onClick={handleGoodReview}>good</button>
-            <button onClick={handleNeutralReview}>neutral</button>
-            <button onClick={handleBadReview}>bad</button>
+            <Button text={"good"} onClick={handleGoodReview}/>
+            <Button text={"neutral"} onClick={handleNeutralReview}/>
+            <Button text={"bad"} onClick={handleBadReview}/>
         </>
     )
 }
