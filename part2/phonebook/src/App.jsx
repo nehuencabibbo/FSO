@@ -10,9 +10,22 @@ const App = () => {
   const handleNewPerson = (event) => {
     event.preventDefault()
 
-    const newPersons = persons.concat({name: newName})
-    setPersons(newPersons)
-    setNewName('')
+    const includesObject = (array, object) => {
+      const stringifiedObject = JSON.stringify(object)
+      for (let element of array) {
+        if (JSON.stringify(element) === stringifiedObject) return true
+      }
+
+      return false
+    }
+
+    const newPerson = {name: newName}
+    if (!includesObject(persons, newPerson)) {
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+    } else {
+      window.alert(`${newName} is already added to the phonebook`)
+    }
   }
 
   const handleNewPersonChange = (event) => {
